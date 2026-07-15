@@ -1,0 +1,10 @@
+# Ignore build artifacts and IDE configurations
+backend/Bookstage.Api/bin/
+backend/Bookstage.Api/obj/
+frontend/node_modules/
+.git/
+.vs/
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
