@@ -1,0 +1,6 @@
+Bookstage.Api/bin/
+Bookstage.Api/obj/
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
