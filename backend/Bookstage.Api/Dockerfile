@@ -7,7 +7,7 @@ RUN dotnet restore "Bookstage.Api.csproj"
 COPY . .
 RUN dotnet publish "Bookstage.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-bookworm-slim AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
 ENV ASPNETCORE_ENVIRONMENT=Production \
