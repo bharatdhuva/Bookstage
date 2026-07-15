@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Downloads\\Compressed\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {}
+    "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {}
   },
   "projects": {
-    "E:\\Downloads\\Compressed\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {
+    "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Downloads\\Compressed\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
+        "projectUniqueName": "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
         "projectName": "Bookstage.Api",
-        "projectPath": "E:\\Downloads\\Compressed\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
-        "packagesPath": "C:\\Users\\Umang Vadukar\\.nuget\\packages\\",
-        "outputPath": "E:\\Downloads\\Compressed\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\obj\\",
+        "projectPath": "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
+        "packagesPath": "C:\\Users\\dhuva\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Umang Vadukar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\dhuva\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -24,6 +24,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -38,10 +39,11 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -90,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.109/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
