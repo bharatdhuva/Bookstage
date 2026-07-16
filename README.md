@@ -336,5 +336,5 @@ Open `http://localhost:5173` to test locally.
 **Bharat Dhuva**
 [Portfolio](https://bharatdhuva.vercel.app) · [GitHub](https://github.com/bharatdhuva) · bharatdhuva27@gmail.com
 
-
-[Portfolio](https://umangvadukar.github.io/Umang.Dev/) · [GitHub](https://github.com/UmangVadukar) · umangvadukar2005@@gmail.com
+**Umang Vadukar**
+[Portfolio](https://umangvadukar.github.io/Umang.Dev/) · [GitHub](https://github.com/UmangVadukar) · umangvadukar2005@gmail.com
