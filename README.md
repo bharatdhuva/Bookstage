@@ -1,6 +1,109 @@
-# 🎬 Bookstage - Premium Movie & Live Event Booking Platform
+# 🎬 Bookstage — Premium Movie & Live Event Booking Platform
 
-Bookstage is a premium, modern ticket booking application for movies and live events. It is built with a high-performance **ASP.NET Core Web API (.NET 10.0)** backend and a state-of-the-art **React + Vite** frontend. The platform provides a rich user experience with dark-themed aesthetics, responsive design, interactive seat selection with 5-minute locking mechanisms, discount validation, dynamic search, PDF ticket generation, and comprehensive administrator dashboards.
+**A full-stack, production-grade ticket booking system built on ASP.NET Core (.NET 10) and React + Vite.**
+
+[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Live Demo](https://img.shields.io/badge/Live-bookstage.vercel.app-000000?logo=vercel)](https://bookstage.vercel.app)
+
+**[🔴 Live Demo](https://bookstage.vercel.app)** &nbsp;·&nbsp; **[📦 Source Code](https://github.com/bharatdhuva/bookstage)**
+
+---
+
+## 📌 Overview
+
+Bookstage is a premium ticket booking application for movies and live events, engineered as a **decoupled backend API + SPA frontend**. It replicates the core mechanics of real-world ticketing platforms (BookMyShow, Fandango-class systems): interactive seat maps, concurrency-safe seat locking, discount validation, PDF ticket generation with QR codes, and a full admin analytics dashboard — all wrapped in a dark-themed, responsive UI.
+
+This project was built to demonstrate production-level engineering practices: clean architecture, secure authentication, race-condition-safe booking logic, and cloud-native deployment — not just CRUD.
+
+---
+
+## 🧠 Highlights for Reviewers
+
+| Area | What it demonstrates |
+| :--- | :--- |
+| **Concurrency handling** | `SeatLocks` table with unique constraints + expiry timestamps prevents two users from booking the same seat — a real distributed-systems problem, not just a UI toggle |
+| **Security** | JWT Bearer auth, ASP.NET Core Identity password hashing, Axios interceptors for token refresh/eviction on the client |
+| **Architecture** | Fully decoupled REST API (ASP.NET Core) and SPA (React/Vite) — independently deployable, independently scalable |
+| **Data layer** | EF Core with PostgreSQL, migrations, health checks, and a seed pipeline for demo/test data |
+| **DevOps** | Dockerized backend, deployed as a cloud Web Service on Render; frontend deployed on Vercel with environment-based config |
+| **UX depth** | Discount/coupon validation, dynamic global search, PDF ticket + QR generation, admin analytics via Recharts |
+
+---
+
+## 📖 Table of Contents
+
+- [Tech Stack](#️-tech-stack--dependencies)
+- [Architecture](#-architecture)
+- [Project Structure](#-project-structure)
+- [Database Schema](#️-database-schema--data-tally)
+- [API Reference](#-api-endpoint-inventory)
+- [Local Setup](#-local-setup-guide)
+- [Production Deployment](#-production-deployment-guide)
+
+---
+
+## 🛠️ Tech Stack & Dependencies
+
+### Backend (API Service)
+| Layer | Technology |
+| :--- | :--- |
+| Framework | ASP.NET Core (.NET 10.0 Web API) |
+| Database & ORM | PostgreSQL via Entity Framework Core (`Npgsql.EntityFrameworkCore.PostgreSQL`) |
+| Auth & Tokens | JWT Bearer authentication (`Microsoft.AspNetCore.Authentication.JwtBearer`) |
+| Password Hashing | ASP.NET Core Identity (`Microsoft.AspNetCore.Identity`) |
+| Health Checks | `Microsoft.Extensions.Diagnostics.HealthChecks` (custom PostgreSQL connectivity check) |
+| API Docs | Microsoft OpenApi (`Microsoft.AspNetCore.OpenApi`) |
+
+### Frontend (SPA Client)
+| Layer | Technology |
+| :--- | :--- |
+| Build Tooling | Vite, ESLint |
+| Core | React 18, React Router DOM v6 |
+| Styling / UI | Tailwind CSS, Headless UI, Radix UI, Lucide Icons, Framer Motion |
+| State Management | Zustand (persisted Auth, Theme, Booking & Search stores) |
+| HTTP Client | Axios (Bearer JWT injection + 401 refresh/eviction interceptors) |
+| Analytics | Recharts (Admin Dashboard) |
+| Utilities | date-fns, qrcode, html2canvas, jsPDF |
+
+---
+
+## 🏗️ Architecture
+
+Bookstage follows a **decoupled client-server architecture** — the API has no knowledge of the frontend and can serve any client (web, mobile, etc.).
+
+```mermaid
+flowchart LR
+    subgraph Client["React + Vite SPA"]
+        UI[Pages / Components]
+        Store[Zustand Stores]
+        Axios[Axios Client]
+    end
+
+    subgraph API["ASP.NET Core Web API (.NET 10)"]
+        Controllers[REST Controllers]
+        Services[Token / Security Services]
+        EF[EF Core DbContext]
+    end
+
+    DB[(PostgreSQL — Supabase)]
+
+    UI --> Store --> Axios
+    Axios -- "JWT Bearer" --> Controllers
+    Controllers --> Services
+    Controllers --> EF
+    EF --> DB
+
+    Client -. "Docker/Vercel" .-> Deploy1[Vercel Hosting]
+    API -. "Docker" .-> Deploy2[Render Web Service]
+```
+
+**Key architectural decisions:**
+- **Decoupled deployment** — frontend on Vercel, backend as a Dockerized service on Render, each scaling independently.
+- **DTOs at the boundary** — API never leaks EF Core entities directly to clients; all I/O goes through Request/Response DTOs.
+- **Concurrency-safe locking** — seat locks are a first-class entity (`SeatLocks`) with expiry + unique constraints, rather than an in-memory flag, so the system survives server restarts and horizontal scaling.
 
 ---
 
@@ -63,30 +166,9 @@ Bookstage consists of a decoupled backend API and a React SPA frontend:
 
 ---
 
-## 🛠️ Tech Stack & Dependencies
-
-### Backend (API Service)
-* **Framework:** ASP.NET Core (.NET 10.0 Web API)
-* **Database & ORM:** PostgreSQL with Entity Framework Core (`Npgsql.EntityFrameworkCore.PostgreSQL`)
-* **Security & Tokens:** JWT Bearer authentication (`Microsoft.AspNetCore.Authentication.JwtBearer`)
-* **Password Hashing:** ASP.NET Core Identity (`Microsoft.AspNetCore.Identity`)
-* **Health Checks:** Core Diagnostics (`Microsoft.Extensions.Diagnostics.HealthChecks`)
-* **API Documentation:** Microsoft OpenApi support (`Microsoft.AspNetCore.OpenApi`)
-
-### Frontend (SPA Client)
-* **Build System & Tooling:** Vite, ESLint
-* **Libraries:** React 18, React Router DOM (v6)
-* **Styling & UI:** Tailwind CSS, Headless UI, Radix UI Icons & Elements, Lucide Icons, Framer Motion (premium animations)
-* **State Management:** Zustand (Persisted Auth, Theme, Booking & Search stores)
-* **HTTP Client:** Axios (Interceptors for Bearer JWT injection and 401 token refresh/eviction)
-* **Visuals & Charts:** Recharts (For analytics on the Admin Dashboard)
-* **Utility Tools:** date-fns (Date Formatting), qrcode (QR ticket code generation), html2canvas & jsPDF (Render & download receipts/PDF tickets)
-
----
-
 ## 🗄️ Database Schema & Data Tally
 
-The schema maps 10 Entity tables managed via Entity Framework Core:
+The schema maps 10 entity tables managed via Entity Framework Core:
 
 | Entity Table | Purpose / Description | Primary Key | Key Fields & Configuration |
 | :--- | :--- | :--- | :--- |
@@ -95,144 +177,161 @@ The schema maps 10 Entity tables managed via Entity Framework Core:
 | **ShowTimes** | Movie screening schedules | `Guid` | `MovieId` (FK), `VenueName` (Max 300), `VenueCity` (Max 100), `ShowDate`, `ShowTimeOfDay`, `Price`, `TotalSeats`, `AvailableSeats` |
 | **Events** | Live events (Concerts, Sports, etc.) | `Guid` | `Title` (Max 500), `Category` (Max 100), `VenueName`, `VenueCity`, `EventDate`, `EventTime`, `Price`, `Rating`, `YoutubeTrailerId` |
 | **Seats** | Individual seat state per showtime | `Guid` | `ShowTimeId` (FK), `SeatNumber` (Max 50), `Row` (Max 10), `Category` (VIP/Premium/Standard), `Price`, `Status` (Available/Locked/Booked) |
-| **SeatLocks**| Temporary 5-minute locks | `Guid` | `ShowTimeId`/`EventId` (FK), `SeatId`, `LockedByUserId` (FK), `LockedAt`, `ExpiresAt`, `IsConfirmed` (Unique constraints to prevent double locks) |
-| **Bookings** | Confirmed bookings for movies/events| `Guid` | `UserId` (FK), `BookingType` (Movie/Event), `EventOrMovieTitle`, `SeatsBooked` (JSON/Comma-delimited), `TotalPrice`, `Status`, `PaymentId` |
+| **SeatLocks** | Temporary 5-minute locks | `Guid` | `ShowTimeId`/`EventId` (FK), `SeatId`, `LockedByUserId` (FK), `LockedAt`, `ExpiresAt`, `IsConfirmed` (unique constraints prevent double locks) |
+| **Bookings** | Confirmed bookings for movies/events | `Guid` | `UserId` (FK), `BookingType` (Movie/Event), `EventOrMovieTitle`, `SeatsBooked` (JSON/Comma-delimited), `TotalPrice`, `Status`, `PaymentId` |
 | **Payments** | Log of payment confirmations | `Guid` | `BookingId` (FK), `UserId` (FK), `Amount`, `PaymentMethod` (Max 50), `TransactionId` (Unique, Max 200), `Status` |
-| **Offers**   | Discount coupon lookup | `Guid` | `Code` (Unique, Max 50), `Type` (Percentage/Flat), `DiscountValue`, `ValidFrom`, `ValidTo` |
-| **Reviews**  | Movie & Event ratings | `Guid` | `UserId` (FK), `MovieId`/`EventId` (FK), `Rating` (1-5 stars), `Title`, `Comment`, `CreatedAt` |
+| **Offers** | Discount coupon lookup | `Guid` | `Code` (Unique, Max 50), `Type` (Percentage/Flat), `DiscountValue`, `ValidFrom`, `ValidTo` |
+| **Reviews** | Movie & event ratings | `Guid` | `UserId` (FK), `MovieId`/`EventId` (FK), `Rating` (1–5 stars), `Title`, `Comment`, `CreatedAt` |
 
 ### 🌱 Seed Data Stats
-When running in `Development` or with the configuration `Database:SeedDataOnStartup=true`, the system seeds:
-* **Users:** 3 initial profiles (`john@example.com` / User, `jane@example.com` / User, `admin@bookstage.com` / Admin).
-* **Movies:** 4 featured films (*Pushpa 2, Dune 2, Mohan Lal, Kalki*).
-* **ShowTimes:** 5 distinct screenings distributed across venues.
-* **Seats:** 150 configurable seats per showtime with custom VIP/Premium/Standard pricing.
-* **Events:** 4 live events categorized under Concerts, Sports, Comedy, and Theatre.
-* **Bookings & Payments:** 3 sample completed orders to visualize client stats instantly.
-* **Discount Offers:** 3 promotional coupon codes.
+When running in `Development` or with `Database:SeedDataOnStartup=true`, the system seeds:
+- **Users:** 3 initial profiles (`john@example.com` / User, `jane@example.com` / User, `admin@bookstage.com` / Admin)
+- **Movies:** 4 featured films (*Pushpa 2, Dune 2, Mohan Lal, Kalki*)
+- **ShowTimes:** 5 distinct screenings across venues
+- **Seats:** 150 configurable seats per showtime with VIP/Premium/Standard pricing
+- **Events:** 4 live events across Concerts, Sports, Comedy, and Theatre
+- **Bookings & Payments:** 3 sample completed orders for instant stat visualization
+- **Discount Offers:** 3 promotional coupon codes
 
 ---
 
 ## 🔌 API Endpoint Inventory
 
-All endpoints are hosted under `/api` and secured with JWT where indicated:
+All endpoints are hosted under `/api` and secured with JWT where indicated.
 
-### 🔑 Authentication & Profile (`/api/auth` & `/api/users`)
-* `POST /api/auth/register` — Register a new account
-* `POST /api/auth/login` — Login & acquire JWT token
-* `GET /api/auth/me` — Retrieve active user details from token *(Authorized)*
-* `GET /api/users/me` — Read detailed profile *(Authorized)*
-* `PUT /api/users/me` — Update profile details *(Authorized)*
+### 🔑 Authentication & Profile — `/api/auth`, `/api/users`
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Register a new account |
+| `POST` | `/api/auth/login` | Login & acquire JWT token |
+| `GET` | `/api/auth/me` | Retrieve active user details from token *(Authorized)* |
+| `GET` | `/api/users/me` | Read detailed profile *(Authorized)* |
+| `PUT` | `/api/users/me` | Update profile details *(Authorized)* |
 
-### 🎬 Movies & ShowTimes (`/api/movies` & `/api/showtimes`)
-* `GET /api/movies` — Query all movies (supports filtering by `nowShowing=true|false`)
-* `GET /api/movies/{id}` — Get single movie details
-* `GET /api/movies/{id}/showtimes` — Get all showtimes for a movie by city
+### 🎬 Movies & ShowTimes — `/api/movies`, `/api/showtimes`
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/movies` | Query all movies (filter by `nowShowing=true|false`) |
+| `GET` | `/api/movies/{id}` | Get single movie details |
+| `GET` | `/api/movies/{id}/showtimes` | Get all showtimes for a movie by city |
 
-### 🎭 Live Events (`/api/events`)
-* `GET /api/events` — Retrieve event list (supports category and city filters)
-* `GET /api/events/{id}` — Fetch specific event details
-* `POST /api/events` — Create new live event *(Admin Authorized)*
-* `PUT /api/events/{id}` — Edit event details *(Admin Authorized)*
-* `DELETE /api/events/{id}` — Delete live event *(Admin Authorized)*
+### 🎭 Live Events — `/api/events`
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/events` | Retrieve event list (category/city filters) |
+| `GET` | `/api/events/{id}` | Fetch specific event details |
+| `POST` | `/api/events` | Create new live event *(Admin)* |
+| `PUT` | `/api/events/{id}` | Edit event details *(Admin)* |
+| `DELETE` | `/api/events/{id}` | Delete live event *(Admin)* |
 
-### 💺 Seat Management & Locks (`/api/seats`)
-* `GET /api/seats/{showtimeId}` — Get availability layout and active locks/bookings
-* `POST /api/seats/{showtimeId}/lock` — Acquire 5-minute temporary seat locks *(Authorized)*
-* `POST /api/seats/{showtimeId}/unlock` — Release held seat locks *(Authorized)*
-* `POST /api/seats/{showtimeId}/confirm` — Update status of locked seats to confirmed *(Authorized)*
+### 💺 Seat Management & Locks — `/api/seats`
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/seats/{showtimeId}` | Get availability layout and active locks/bookings |
+| `POST` | `/api/seats/{showtimeId}/lock` | Acquire 5-minute temporary seat lock *(Authorized)* |
+| `POST` | `/api/seats/{showtimeId}/unlock` | Release held seat lock *(Authorized)* |
+| `POST` | `/api/seats/{showtimeId}/confirm` | Update locked seats to confirmed *(Authorized)* |
 
-### 🎟️ Bookings & Offers (`/api/bookings` & `/api/offers`)
-* `POST /api/bookings` — Create booking invoice *(Authorized)*
-* `GET /api/bookings/my` — Fetch bookings for the logged-in user *(Authorized)*
-* `GET /api/bookings/{id}` — Retrieve details of specific booking *(Authorized)*
-* `PUT /api/bookings/{id}/cancel` — Cancel booking and issue 80% refund *(Authorized)*
-* `POST /api/offers/validate` — Validate promo coupon and apply discount *(Authorized)*
+### 🎟️ Bookings & Offers — `/api/bookings`, `/api/offers`
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/bookings` | Create booking invoice *(Authorized)* |
+| `GET` | `/api/bookings/my` | Fetch bookings for the logged-in user *(Authorized)* |
+| `GET` | `/api/bookings/{id}` | Retrieve details of a specific booking *(Authorized)* |
+| `PUT` | `/api/bookings/{id}/cancel` | Cancel booking, issue 80% refund *(Authorized)* |
+| `POST` | `/api/offers/validate` | Validate promo coupon and apply discount *(Authorized)* |
 
 ---
 
 ## 🚀 Local Setup Guide
 
 ### 1. Database Configuration
-1. Host a PostgreSQL database instance on [Supabase](https://supabase.com/) or run PostgreSQL locally.
+1. Host a PostgreSQL instance on [Supabase](https://supabase.com/) or run PostgreSQL locally.
 2. Retrieve your connection string.
 
 ### 2. Backend Startup
-1. Navigate to the api directory:
-   ```bash
-   cd backend/Bookstage.Api
-   ```
-2. Update `appsettings.Development.json` or define environment variables:
-   ```json
-   {
-     "ConnectionStrings": {
-       "DefaultConnection": "YOUR_POSTGRES_CONNECTION_STRING"
-     },
-     "Jwt": {
-       "Key": "A_SECURE_256BIT_RANDOM_SECRET_KEY",
-       "Issuer": "Bookstage.Api",
-       "Audience": "Bookstage.Client"
-     },
-     "Database": {
-       "ApplyMigrationsOnStartup": true,
-       "SeedDataOnStartup": true
-     }
-   }
-   ```
-3. Run migrations and launch:
-   ```bash
-   dotnet run
-   ```
-   *The api will start listening on `http://localhost:5054`.*
+```bash
+cd backend/Bookstage.Api
+```
+Update `appsettings.Development.json` (or set environment variables):
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "YOUR_POSTGRES_CONNECTION_STRING"
+  },
+  "Jwt": {
+    "Key": "A_SECURE_256BIT_RANDOM_SECRET_KEY",
+    "Issuer": "Bookstage.Api",
+    "Audience": "Bookstage.Client"
+  },
+  "Database": {
+    "ApplyMigrationsOnStartup": true,
+    "SeedDataOnStartup": true
+  }
+}
+```
+Run migrations and launch:
+```bash
+dotnet run
+```
+The API starts at `http://localhost:5054`.
 
 ### 3. Frontend Startup
-1. Navigate to the client directory:
-   ```bash
-   cd frontend
-   ```
-2. Install the necessary node modules:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file in the `frontend/` directory:
-   ```text
-   VITE_API_URL=http://localhost:5054/api
-   VITE_SUPABASE_URL=https://your-supabase-url.supabase.co
-   VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-pub-key
-   ```
-4. Start Vite development server:
-   ```bash
-   npm run dev
-   ```
-   *Open `http://localhost:5173` to test locally.*
+```bash
+cd frontend
+npm install
+```
+Create a `.env` file in `frontend/`:
+```text
+VITE_API_URL=http://localhost:5054/api
+VITE_SUPABASE_URL=https://your-supabase-url.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your-supabase-pub-key
+```
+Start the dev server:
+```bash
+npm run dev
+```
+Open `http://localhost:5173` to test locally.
 
 ---
 
 ## 🌐 Production Deployment Guide
 
-### Backend Cloud Deployment (Render)
-The backend is optimized for deployment as a **Docker Web Service** on Render.
-
+### Backend — Render (Docker Web Service)
 1. Connect your repository to Render.
-2. Select **Web Service** and choose **Docker** runtime.
-3. Configure target build settings:
-   * **Root Directory:** *(Keep blank)*
-   * **Dockerfile Path:** `Dockerfile` (or `backend/Bookstage.Api/Dockerfile` depending on the build origin)
-4. Add the following **Environment Variables**:
-   * `ASPNETCORE_ENVIRONMENT` = `Production`
-   * `PORT` = `10000`
-   * `ConnectionStrings__DefaultConnection` = `YOUR_SUPABASE_PRODUCTION_DB_STRING`
-   * `Jwt__Key` = `SECURE_JWT_SIGNING_KEY`
-   * `Jwt__Issuer` = `Bookstage.Api`
-   * `Jwt__Audience` = `Bookstage.Client`
-   * `Cors__AllowedOrigins` = `https://your-app-frontend.vercel.app` (Separate multiple with commas, without trailing slash)
-   * `Database__ApplyMigrationsOnStartup` = `true` (Triggers DB updates automatically)
-   * `Database__SeedDataOnStartup` = `false`
+2. Select **Web Service** → **Docker** runtime.
+3. Build settings:
+   - **Root Directory:** *(blank)*
+   - **Dockerfile Path:** `Dockerfile` (or `backend/Bookstage.Api/Dockerfile`, depending on build origin)
+4. Environment variables:
 
-### Frontend Cloud Deployment (Vercel)
+| Variable | Value |
+| :--- | :--- |
+| `ASPNETCORE_ENVIRONMENT` | `Production` |
+| `PORT` | `10000` |
+| `ConnectionStrings__DefaultConnection` | `YOUR_SUPABASE_PRODUCTION_DB_STRING` |
+| `Jwt__Key` | `SECURE_JWT_SIGNING_KEY` |
+| `Jwt__Issuer` | `Bookstage.Api` |
+| `Jwt__Audience` | `Bookstage.Client` |
+| `Cors__AllowedOrigins` | `https://your-app-frontend.vercel.app` (comma-separated, no trailing slash) |
+| `Database__ApplyMigrationsOnStartup` | `true` |
+| `Database__SeedDataOnStartup` | `false` |
+
+### Frontend — Vercel
 1. Import the project repository into Vercel.
 2. Set **Root Directory** to `frontend`.
-3. Select **Vite** preset.
-4. Set the **Environment Variable**:
-   * `VITE_API_URL` = `https://your-render-backend-service.onrender.com/api`
-5. Click **Deploy**.
+3. Select the **Vite** preset.
+4. Set environment variable:
+
+| Variable | Value |
+| :--- | :--- |
+| `VITE_API_URL` | `https://your-render-backend-service.onrender.com/api` |
+
+5. Deploy.
+
+---
+
+## 📬 Contact
+
+**Bharat Dhuva**
+[Portfolio](https://bharatdhuva.vercel.app) · [GitHub](https://github.com/bharatdhuva) · bharatdhuva27@gmail.com
