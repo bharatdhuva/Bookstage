@@ -63,6 +63,14 @@ Bookstage consists of a decoupled backend API and a React SPA frontend:
 
 ---
 
+## 🏗️ Architecture
+
+Below is the conceptual architecture diagram for the Bookstage platform:
+
+![Bookstage Architecture](./architecture.png)
+
+---
+
 ## 🛠️ Tech Stack & Dependencies
 
 ### Backend (API Service)
