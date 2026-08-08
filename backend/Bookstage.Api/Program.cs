@@ -161,8 +161,7 @@ if (applyMigrationsOnStartup || seedDataOnStartup)
     }
     catch (Exception ex)
     {
-        app.Logger.LogCritical(ex, "Failed to initialize the database during startup.");
-        throw;
+        app.Logger.LogError(ex, "Failed to initialize the database during startup. Please check connection string settings.");
     }
 }
 
