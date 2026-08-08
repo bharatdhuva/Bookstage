@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bookstage.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1c0f371ebe320ca34b5610887f82ae77d097f92")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bookstage.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bookstage.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {}
+    "C:\\Users\\dhuva\\Desktop\\Bharat Dhuva\\Projects\\Bookstage\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {
+    "C:\\Users\\dhuva\\Desktop\\Bharat Dhuva\\Projects\\Bookstage\\backend\\Bookstage.Api\\Bookstage.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
+        "projectUniqueName": "C:\\Users\\dhuva\\Desktop\\Bharat Dhuva\\Projects\\Bookstage\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
         "projectName": "Bookstage.Api",
-        "projectPath": "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
+        "projectPath": "C:\\Users\\dhuva\\Desktop\\Bharat Dhuva\\Projects\\Bookstage\\backend\\Bookstage.Api\\Bookstage.Api.csproj",
         "packagesPath": "C:\\Users\\dhuva\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dhuva\\Desktop\\Bookstage-moviebooking-main\\Bookstage-moviebooking-main\\backend\\Bookstage.Api\\obj\\",
+        "outputPath": "C:\\Users\\dhuva\\Desktop\\Bharat Dhuva\\Projects\\Bookstage\\backend\\Bookstage.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dhuva\\AppData\\Roaming\\NuGet\\NuGet.Config"
