@@ -352,7 +352,10 @@ Open `http://localhost:5173` to test locally.
 
 ---
 
-## 📬 Contact
+## 📬 Contributors
 
 **Bharat Dhuva**
 [Portfolio](https://bharatdhuva.vercel.app) · [GitHub](https://github.com/bharatdhuva) · bharatdhuva27@gmail.com
+
+**Umang Vadukar**
+[Portfolio](https://umangvadukar.github.io/Umang.Dev/) · [GitHub](https://github.com/UmangVadukar) · umangvadukar2005@gmail.com
